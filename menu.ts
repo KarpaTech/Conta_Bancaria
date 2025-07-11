@@ -1,6 +1,44 @@
+/*
+classDiagram
+class Conta {
+  - numero : number
+  - agencia : number
+  - tipo : number
+  - titular : string
+  - saldo : number
+  + get numero() number
+  + get agencia() number
+  + get tipo() number
+  + get titular() string
+  + get saldo() number
+  + set numero(numero: number) void
+  + set agencia(agencia: number) void
+  + set tipo(tipo: number) void
+  + set titular(titular: string) void
+  + set saldo(saldo: number) void
+  + sacar(valor: number) boolean
+  + depositar(valor: number) void
+  + visualizar() void
+}
+class ContaCorrente {
+  - limite : number
+  + get limite() number
+  + set limite(limite: number) void
+  + sacar(number valor) boolean
+  + visualizar() void
+}
+class ContaPoupanca {
+  - aniversario : number
+  + get aniversario() number
+  + set aniversario(aniversario: number) void
+  + visualizar() void
+}
+Conta <|-- ContaCorrente
+Conta <|-- ContaPoupanca
+*/
+
 import readlinesync = require("readline-sync");
-import { Colors } from "./src/util/colorS";
-import { Conta } from "./src/util/model/conta";
+import { Colors } from "./src/util/Colors";
 import { ContaCorrente } from "./src/util/model/ContaCorrente";
 import { ContaPoupanca } from "./src/util/model/ContaPoupanca";
 
@@ -8,35 +46,15 @@ export function main() {
   let opcao: number;
 
   // Objeto da Classe Conta (Teste)
-  const conta: Conta = new Conta(1, 123, 1, "Adriana", 10000);
-  conta.visualizar();
-  conta.sacar(10500);
-  conta.visualizar();
-  conta.depositar(5000);
-  conta.visualizar();
 
-  const contacorrente: ContaCorrente = new ContaCorrente(
-    2,
-    123,
-    1,
-    "Mariana",
-    15000,
-    1000
-  );
+  const contacorrente: ContaCorrente = new ContaCorrente( 2,123,1,"Flavia",15000,1000);
   contacorrente.visualizar();
   contacorrente.sacar(2000);
   contacorrente.visualizar();
   contacorrente.depositar(1000);
   contacorrente.visualizar();
 
-  const contapoupanca: ContaPoupanca = new ContaPoupanca(
-    3,
-    123,
-    2,
-    "Victor",
-    1000,
-    10
-  );
+  const contapoupanca: ContaPoupanca = new ContaPoupanca(3,123,2,'PH',1000,10);
   contapoupanca.visualizar();
   contapoupanca.sacar(200);
   contapoupanca.visualizar();
@@ -235,3 +253,4 @@ function keyPress(): void {
   readlinesync.prompt();
 }
 main();
+

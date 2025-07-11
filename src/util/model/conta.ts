@@ -1,6 +1,6 @@
-import { Colors } from "../colorS";
-
-export class Conta {
+import { Colors } from "../Colors";
+//Como a Classe Conta se tornou uma Classe Abstrata, não é possível instanciar Objetos desta Classe. Observe na imagem abaixo, que depois de salvar a alteração na Classe Conta, automaticamente a Classe Menu apresentou uma indicação de erro:
+export abstract class Conta {
   private _numero: number;
   private _agencia: number;
   private _tipo: number;
