@@ -1,53 +1,24 @@
-/*
-classDiagram
-class Conta {
-  - numero : number
-  - agencia : number
-  - tipo : number
-  - titular : string
-  - saldo : number
-  + get numero() number
-  + get agencia() number
-  + get tipo() number
-  + get titular() string
-  + get saldo() number
-  + set numero(numero: number) void
-  + set agencia(agencia: number) void
-  + set tipo(tipo: number) void
-  + set titular(titular: string) void
-  + set saldo(saldo: number) void
-  + sacar(valor: number) boolean
-  + depositar(valor: number) void
-  + visualizar() void
-}
-class ContaCorrente {
-  - limite : number
-  + get limite() number
-  + set limite(limite: number) void
-  + sacar(number valor) boolean
-  + visualizar() void
-}
-class ContaPoupanca {
-  - aniversario : number
-  + get aniversario() number
-  + set aniversario(aniversario: number) void
-  + visualizar() void
-}
-Conta <|-- ContaCorrente
-Conta <|-- ContaPoupanca
-*/
-
 import readlinesync = require("readline-sync");
 import { Colors } from "./src/util/Colors";
-import { ContaCorrente } from "./src/util/model/ContaCorrente";
-import { ContaPoupanca } from "./src/util/model/ContaPoupanca";
+import { ContaCorrente } from "./src/model/ContaCorrente";
+import { ContaPoupanca } from "./src/model/ContaPoupanca";
+import { ContaController } from "./src/controller/ContaController";
+import { read } from "node:fs";
 
 export function main() {
-  let opcao: number;
+  
+  // instancia da classe ContaController
+  let contas: ContaController = new ContaController(); //Cria um Objeto da Classe ContaController, para armazenar os dados das contas no Array listaContas e executar os Métodos implementados na Classe (Métodos do CRUD e Métodos Bancários).
+
+  // Variaveis Auxiliares
+  let opcao, numero, agencia, tipo, saldo, limite, aniversario: number;
+  let titular: string;
+  const tiposContas = ['Conta Corrente', 'Conta Poupanca']; //Note que na linha 15 foi criado um Array chamado tiposContas, que contém os tipos de Contas que o Banco oferece. Esse Array será utilizado no formulário, para escolher o tipo da conta.
 
   // Objeto da Classe Conta (Teste)
 
   const contacorrente: ContaCorrente = new ContaCorrente( 2,123,1,"Flavia",15000,1000);
+
   contacorrente.visualizar();
   contacorrente.sacar(2000);
   contacorrente.visualizar();
@@ -55,6 +26,7 @@ export function main() {
   contacorrente.visualizar();
 
   const contapoupanca: ContaPoupanca = new ContaPoupanca(3,123,2,'PH',1000,10);
+
   contapoupanca.visualizar();
   contapoupanca.sacar(200);
   contapoupanca.visualizar();
@@ -62,108 +34,24 @@ export function main() {
   contapoupanca.visualizar();
 
   while (true) {
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.yellow,
-      "                                                    ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "                                                     ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "                  BANCO PERIFERIA                   ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "                                                     ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "|||||||||||||||||||||||||||||||||||||||||||||||||||||",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "                                                     ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            1 - Criar Conta                         ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            2 - Listar todas as Contas              ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            3 - Acessa Conta                        ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            4 - Atualizar Dados da Conta            ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            5 - Apagar Conta                        ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            6 - Sacar                               ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            7 - Depositar                           ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            8 - Transferir valores entre Contas     ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      Colors.fg.bluestrong,
-      "            9 - Sair                                ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "                                                     ",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "|||||||||||||||||||||||||||||||||||||||||||||||||||||",
-      Colors.reset
-    );
-    console.log(
-      Colors.bg.whitebright,
-      "                                                     ",
-      Colors.reset
-    );
-
+    console.log(Colors.bg.whitebright,Colors.fg.yellow,"                                                    ",Colors.reset);
+    console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"                  BANCO PERIFERIA                   ",Colors.reset);
+    console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
+    console.log(Colors.bg.whitebright,"|||||||||||||||||||||||||||||||||||||||||||||||||||||",Colors.reset);
+    console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            1 - Criar Conta                         ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            2 - Listar todas as Contas              ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            3 - Acessa Conta                        ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            4 - Atualizar Dados da Conta            ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            5 - Apagar Conta                        ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            6 - Sacar                               ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            7 - Depositar                           ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            8 - Transferir valores entre Contas     ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"            9 - Sair                                ",Colors.reset);
+    console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
+    console.log(Colors.bg.whitebright,"|||||||||||||||||||||||||||||||||||||||||||||||||||||",Colors.reset);
+    console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
     console.log(Colors.fg.greenstrong, "Escolha uma opção: ", Colors.reset);
     opcao = readlinesync.questionInt("");
 
@@ -173,42 +61,52 @@ export function main() {
       console.log(Colors.reset, "");
       process.exit(0);
     }
-
     switch (opcao) {
       case 1:
         console.log(Colors.fg.bluestrong, "\n\nCriar Conta\n\n", Colors.reset);
 
+        console.log('Digite o número da agência: ');
+        agencia = readlinesync.questionInt ('');
+
+        console.log('Digite o nome do títular da conta: ');
+        titular = readlinesync.question('');
+
+        console.log('\nDigite o tipo da conta: ');
+        tipo = readlinesync.keyInSelect (tiposContas, '', {cancel: false}) + 1;
+
+        console.log('\nDigite o saldo da conta (R$): ');
+        saldo = readlinesync.questionFloat ('');
+        
+    switch (tipo){
+      case 1:
+        console.log('Digite o limnite da conta (R$): ');
+        limite = readlinesync. questionFloat (''),
+        contas.cadastrar(
+          new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite))
         break;
       case 2:
-        console.log(
-          Colors.fg.bluestrong,
-          "\n\nListar todas as Contas\n\n",
-          Colors.reset
-        );
+        console.log('Digite o dia do aniversário da conta poupança: ');
+          aniversario = readlinesync.questionInt('')
+          contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+         break;
+    }
 
+    keyPress()
+      case 2:
+        console.log(Colors.fg.bluestrong,"\n\nListar todas as contas\n\n",Colors.reset);
+        contas.listarTodas();
         break;
+        
       case 3:
-        console.log(
-          Colors.fg.bluestrong,
-          "\n\nConsultar dados da Conta - por número\n\n",
-          Colors.reset
-        );
+        console.log(Colors.fg.bluestrong,"\n\nAcessar a conta\n\n",Colors.reset);
 
         break;
       case 4:
-        console.log(
-          Colors.fg.bluestrong,
-          "\n\nAtualizar dados da Conta\n\n",
-          Colors.reset
-        );
+        console.log(Colors.fg.bluestrong,"\n\nAtualizar dados da Conta\n\n",Colors.reset);
 
         break;
       case 5:
-        console.log(
-          Colors.fg.bluestrong,
-          "\n\nApagar uma Conta\n\n",
-          Colors.reset
-        );
+        console.log(Colors.fg.bluestrong,"\n\nApagar uma Conta\n\n",Colors.reset);
 
         break;
       case 6:
@@ -220,11 +118,7 @@ export function main() {
 
         break;
       case 8:
-        console.log(
-          Colors.fg.bluestrong,
-          "\n\nTransferência entre Contas\n\n",
-          Colors.reset
-        );
+        console.log(Colors.fg.bluestrong,"\n\nTransferência entre Contas\n\n",Colors.reset);
 
         break;
       default:
