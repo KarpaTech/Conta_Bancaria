@@ -19,24 +19,26 @@ export function main() {
 
   const contacorrente: ContaCorrente = new ContaCorrente( 2,123,1,"Flavia",15000,1000);
 
-  contacorrente.visualizar();
-  contacorrente.sacar(2000);
-  contacorrente.visualizar();
-  contacorrente.depositar(1000);
-  contacorrente.visualizar();
+  console.log("\nCriar Contas\n");
 
-  const contapoupanca: ContaPoupanca = new ContaPoupanca(3,123,2,'PH',1000,10);
+let cc1: ContaCorrente = new ContaCorrente(contas.gerarNumero(), 123, 1, "Flavia", 100.000, 10.000);
+contas.cadastrar(cc1);
 
-  contapoupanca.visualizar();
-  contapoupanca.sacar(200);
-  contapoupanca.visualizar();
-  contapoupanca.depositar(1000);
-  contapoupanca.visualizar();
+let cc2: ContaCorrente = new ContaCorrente(contas.gerarNumero(), 124, 1, "Maria da Silva", 2000, 100.0);
+contas.cadastrar(cc2);
+
+let cp1: ContaPoupanca = new ContaPoupanca(contas.gerarNumero(), 125, 2, "Mariana dos Santos", 4000, 12);
+contas.cadastrar(cp1);
+
+let cp2: ContaPoupanca = new ContaPoupanca(contas.gerarNumero(), 125, 2, "Juliana Ramos", 8000, 15);
+contas.cadastrar(cp2);
+
+contas.listarTodas();
 
   while (true) {
     console.log(Colors.bg.whitebright,Colors.fg.yellow,"                                                    ",Colors.reset);
     console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
-    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"                  BANCO PERIFERIA                   ",Colors.reset);
+    console.log(Colors.bg.whitebright,Colors.fg.bluestrong,"                  BANCO PERIFA                      ",Colors.reset);
     console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
     console.log(Colors.bg.whitebright,"|||||||||||||||||||||||||||||||||||||||||||||||||||||",Colors.reset);
     console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
@@ -52,11 +54,18 @@ export function main() {
     console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
     console.log(Colors.bg.whitebright,"|||||||||||||||||||||||||||||||||||||||||||||||||||||",Colors.reset);
     console.log(Colors.bg.whitebright,"                                                     ",Colors.reset);
-    console.log(Colors.fg.greenstrong, "Escolha uma opção: ", Colors.reset);
+    console.log(Colors.fg.bluestrong, "Escolha uma opção: ", Colors.reset);
     opcao = readlinesync.questionInt("");
 
     if (opcao == 9) {
-      console.log(Colors.fg.greenstrong, "\nBanco Periferia - De Nós Pra Nós!");
+
+console.log(Colors.bg.redbright,Colors.fg.brownstrong,   "▄▄▄▄·  ▄▄▄·  ▐ ▄  ▄▄·            ▄▄▄·▄▄▄ .▄▄▄  ▪  ·▄▄▄ ▄▄▄· ",Colors.reset);
+console.log(Colors.bg.redbright,Colors.fg.brownstrong,   "▐█ ▀█▪▐█ ▀█ •█▌▐█▐█ ▌▪▪         ▐█ ▄█▀▄.▀·▀▄ █·██ ▐▄▄·▐█ ▀█ ",Colors.reset);
+console.log(Colors.bg.green,Colors.fg.brownstrong,       "▐█▀▀█▄▄█▀▀█ ▐█▐▐▌██ ▄▄ ▄█▀▄      ██▀·▐▀▀▪▄▐▀▀▄ ▐█·██▪ ▄█▀▀█ ",Colors.reset);
+console.log(Colors.bg.green,Colors.fg.brownstrong,       "██▄▪▐█▐█ ▪▐▌██▐█▌▐███▌▐█▌.▐▌    ▐█▪·•▐█▄▄▌▐█•█▌▐█▌██▌.▐█ ▪▐▌",Colors.reset);
+console.log(Colors.bg.yellowbright,Colors.fg.brownstrong,"·▀▀▀▀  ▀  ▀ ▀▀ █▪·▀▀▀  ▀█▄▀▪    .▀    ▀▀▀ .▀  ▀▀▀▀▀▀▀  ▀  ▀ ",Colors.reset);
+console.log(Colors.bg.yellowbright,"                                                             ",Colors.reset);
+
       sobre();
       console.log(Colors.reset, "");
       process.exit(0);
@@ -98,8 +107,13 @@ export function main() {
         break;
         
       case 3:
-        console.log(Colors.fg.bluestrong,"\n\nAcessar a conta\n\n",Colors.reset);
+        console.log(Colors.fg.bluestrong,"\n\nConsultar dados da conta - Por número\n\n",Colors.reset);
 
+        console.log('Digite o número da conta: ');
+        numero = readlinesync.questionInt(''); // Foi criada a entrada de dados via teclado para a variável numero, que receberá o numero da conta que deverá ser procurada no Array listaContas.
+        contas.procurarPorNumero(numero); //  Executa o Método procurarPorNumero(numero), da Classe ContaController, passando como parâmetro a variável numero, que contém o numero da conta (recebido via teclado), que deverá ser procurada no Array listaContas.
+        
+        keyPress()
         break;
       case 4:
         console.log(Colors.fg.bluestrong,"\n\nAtualizar dados da Conta\n\n",Colors.reset);
@@ -133,17 +147,16 @@ export function main() {
 
 export function sobre(): void {
   console.log("\n*****************************************************");
-  console.log(
-    "Projeto Desenvolvido por: Generation Brasil - generation@generation.org "
-  );
-  console.log("Karpa Tech - karpatech2025@gmail.com");
-  console.log("https://github.com/KarpaTech");
-  console.log("*****************************************************");
+  console.log(Colors.fg.bluestrong,
+    "Projeto Desenvolvido por: Generation Brasil - generation@generation.org ",Colors.reset);
+  console.log(Colors.fg.bluestrong,"Karpa Tech - karpatech2025@gmail.com",Colors.reset);
+  console.log(Colors.fg.bluestrong,"https://github.com/KarpaTech",Colors.reset);
+  console.log("*****************************************************",Colors.reset);
 }
 
 function keyPress(): void {
   console.log(Colors.reset, "");
-  console.log("\nEntrar.");
+  console.log(Colors.fg.magenta,"\nEntrar.",Colors.reset);
   readlinesync.prompt();
 }
 main();
