@@ -2,7 +2,7 @@
 /dist
 /node_modules
 nodemon.json
-
+ 
 # Logs
 logs
 *.log
@@ -11,14 +11,14 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+ 
 # OS
 .DS_Store
-
+ 
 # Tests
 /coverage
 /.nyc_output
-
+ 
 # IDEs and editors
 /.idea
 .project
@@ -27,51 +27,10 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
-
+ 
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-
-
-/*
-classDiagram
-class Conta {
-  - numero : number
-  - agencia : number
-  - tipo : number
-  - titular : string
-  - saldo : number
-  + get numero() number
-  + get agencia() number
-  + get tipo() number
-  + get titular() string
-  + get saldo() number
-  + set numero(numero: number) void
-  + set agencia(agencia: number) void
-  + set tipo(tipo: number) void
-  + set titular(titular: string) void
-  + set saldo(saldo: number) void
-  + sacar(valor: number) boolean
-  + depositar(valor: number) void
-  + visualizar() void
-}
-class ContaCorrente {
-  - limite : number
-  + get limite() number
-  + set limite(limite: number) void
-  + sacar(number valor) boolean
-  + visualizar() void
-}
-class ContaPoupanca {
-  - aniversario : number
-  + get aniversario() number
-  + set aniversario(aniversario: number) void
-  + visualizar() void
-}
-Conta <|-- ContaCorrente
-Conta <|-- ContaPoupanca
-*/
